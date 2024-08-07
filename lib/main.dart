@@ -3,12 +3,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_coworkers_app/config/app_color.dart';
 import 'package:flutter_coworkers_app/config/appwrite.dart';
+import 'package:flutter_coworkers_app/config/enums.dart';
+import 'package:flutter_coworkers_app/pages/get_started_page.dart';
+import 'package:flutter_coworkers_app/pages/sign_up_page.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   Appwrite.init();
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -29,56 +32,25 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.light(
           primary: AppColor.primary,
         ),
-      ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(widget.title),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
+        filledButtonTheme: FilledButtonThemeData(
+          style: ButtonStyle(
+            minimumSize: MaterialStatePropertyAll(
+              Size.fromHeight(52),
             ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
+            textStyle: MaterialStatePropertyAll(
+              TextStyle(
+                fontSize: 16.0,
+                fontWeight: FontWeight.bold,
+              ),
             ),
-          ],
+          ),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ),
+      initialRoute: AppRoute.getStarted.name,
+      routes: {
+        AppRoute.getStarted.name: (context) => GetStartedPage(),
+        AppRoute.signUp.name: (context) => SignUpPage(),
+      },
     );
   }
 }
