@@ -1,5 +1,9 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/material.dart';
+import 'package:flutter_coworkers_app/config/app_color.dart';
 import 'package:flutter_coworkers_app/config/appwrite.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -14,9 +18,17 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+      theme: ThemeData.light(
         useMaterial3: true,
+      ).copyWith(
+        textTheme: GoogleFonts.poppinsTextTheme().apply(
+          bodyColor: AppColor.text,
+          displayColor: AppColor.text,
+        ),
+        primaryColor: AppColor.primary,
+        colorScheme: ColorScheme.light(
+          primary: AppColor.primary,
+        ),
       ),
       home: const MyHomePage(title: 'Flutter Demo Home Page'),
     );
