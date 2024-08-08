@@ -1,8 +1,11 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:flutter/material.dart';
+import 'package:flutter_coworkers_app/controllers/sign_up_controller.dart';
 import 'package:flutter_coworkers_app/widgets/input_auth.dart';
 import 'package:flutter_coworkers_app/widgets/input_auth_password.dart';
+import 'package:flutter_coworkers_app/widgets/secondary_button.dart';
+import 'package:get/get.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
@@ -12,6 +15,14 @@ class SignUpPage extends StatefulWidget {
 }
 
 class _SignUpPageState extends State<SignUpPage> {
+  final signUpController = Get.put(SignUpController());
+
+  @override
+  void dispose() {
+    signUpController.clear();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -74,7 +85,7 @@ class _SignUpPageState extends State<SignUpPage> {
                 InputAuth(
                   title: 'Complete Name',
                   hint: 'Write your name',
-                  editingController: TextEditingController(),
+                  editingController: signUpController.editName,
                 ),
                 const SizedBox(
                   height: 20.0,
@@ -82,18 +93,73 @@ class _SignUpPageState extends State<SignUpPage> {
                 InputAuth(
                   title: 'Email Address',
                   hint: 'Write your email',
-                  editingController: TextEditingController(),
+                  editingController: signUpController.editEmail,
                 ),
                 InputAuthPassword(
                   title: 'Password',
                   hint: 'Write your password',
-                  editingController: TextEditingController(),
+                  editingController: signUpController.editPassword,
+                ),
+                const SizedBox(
+                  height: 30.0,
+                ),
+                Row(
+                  children: [
+                    Container(
+                      height: 20,
+                      width: 20,
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: Theme.of(context).primaryColor,
+                        ),
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(8.0),
+                        ),
+                      ),
+                      padding: const EdgeInsets.all(2),
+                      child: Material(
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(6.0),
+                        ),
+                        color: Theme.of(context).primaryColor,
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 8.0,
+                    ),
+                    Text(
+                      'I agree with terms and condirion',
+                      style: TextStyle(
+                        color: Colors.black,
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(
+                  height: 30.0,
+                ),
+                FilledButton(
+                  onPressed: () {
+                    signUpController.execute(context);
+                  },
+                  child: Text(
+                    'Sign Up',
+                  ),
+                ),
+                const SizedBox(
+                  height: 15.0,
+                ),
+                SecondaryButton(
+                  onPressed: () {},
+                  child: Text(
+                    'Sign In to My Account',
+                  ),
                 ),
               ],
             ),
           ),
           const SizedBox(
-            height: 55.0,
+            height: 30.0,
           ),
         ],
       ),

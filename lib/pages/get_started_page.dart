@@ -32,11 +32,11 @@ class GetStartedPage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             imageStarted(getStarted1),
-            DView.spaceHeight(20),
+            const SizedBox(height: 20.0),
             imageStarted(getStarted2),
-            DView.spaceHeight(20),
+            const SizedBox(height: 20.0),
             imageStarted(getStarted3),
-            DView.spaceHeight(30),
+            const SizedBox(height: 20.0),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 20),
               child: Text(
@@ -49,7 +49,7 @@ class GetStartedPage extends StatelessWidget {
                 ),
               ),
             ),
-            DView.spaceHeight(10),
+            const SizedBox(height: 10.0),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 20),
               child: Text(
