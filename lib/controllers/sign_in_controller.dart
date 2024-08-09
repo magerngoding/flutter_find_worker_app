@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_coworkers_app/config/app_info.dart';
-import 'package:flutter_coworkers_app/datasource/user_datasource.dart';
 import 'package:get/get.dart';
 
-class SignUpController extends GetxController {
+import '../datasource/user_datasource.dart';
+
+class SignInController extends GetxController {
   clear() {
-    Get.delete<SignUpController>(force: true);
+    Get.delete<SignInController>(force: true);
   }
 
-  final editName = TextEditingController();
   final editEmail = TextEditingController();
   final editPassword = TextEditingController();
 
@@ -18,12 +18,6 @@ class SignUpController extends GetxController {
 
   // untuk sign
   execute(BuildContext context) {
-    // NAME
-    if (editName.text == '') {
-      AppInfo.failed(context, 'Nama wajib diisi!');
-      return; // pakai return agar tidak ke eksekusi semua perintah nya
-    }
-
     // EMAIL
     if (editEmail.text == '') {
       AppInfo.failed(context, 'Email wajib diisi!');
@@ -48,8 +42,7 @@ class SignUpController extends GetxController {
 
     loading = true;
 
-    UserDatasource.signUp(
-      editName.text,
+    UserDatasource.signIn(
       editEmail.text,
       editPassword.text,
     ).then((value) {
@@ -60,6 +53,8 @@ class SignUpController extends GetxController {
         },
         (data) {
           AppInfo.toastSuccess('Berhasil');
+          // Save to seesion
+          // Navigasi
         },
       );
     });

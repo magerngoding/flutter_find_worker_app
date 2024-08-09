@@ -2,21 +2,23 @@
 
 import 'package:d_view/d_view.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_coworkers_app/controllers/sign_up_controller.dart';
+import 'package:flutter_coworkers_app/controllers/sign_in_controller.dart';
 import 'package:flutter_coworkers_app/widgets/input_auth.dart';
 import 'package:flutter_coworkers_app/widgets/input_auth_password.dart';
 import 'package:flutter_coworkers_app/widgets/secondary_button.dart';
 import 'package:get/get.dart';
 
-class SignUpPage extends StatefulWidget {
-  const SignUpPage({super.key});
+import '../config/enums.dart';
+
+class SignInPage extends StatefulWidget {
+  const SignInPage({super.key});
 
   @override
-  State<SignUpPage> createState() => _SignUpPageState();
+  State<SignInPage> createState() => _SignInPageState();
 }
 
-class _SignUpPageState extends State<SignUpPage> {
-  final signUpController = Get.put(SignUpController());
+class _SignInPageState extends State<SignInPage> {
+  final signUpController = Get.put(SignInController());
 
   @override
   void dispose() {
@@ -58,7 +60,7 @@ class _SignUpPageState extends State<SignUpPage> {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Text(
-                          "New account",
+                          "Sign In",
                           style: TextStyle(
                             fontSize: 24.0,
                             fontWeight: FontWeight.bold,
@@ -68,7 +70,7 @@ class _SignUpPageState extends State<SignUpPage> {
                         const SizedBox(
                           height: 8.0,
                         ),
-                        Text("Let's gro your business today"),
+                        Text("Manage your worker!"),
                       ],
                     ),
                   ),
@@ -84,14 +86,6 @@ class _SignUpPageState extends State<SignUpPage> {
             child: Column(
               children: [
                 InputAuth(
-                  title: 'Complete Name',
-                  hint: 'Write your name',
-                  editingController: signUpController.editName,
-                ),
-                const SizedBox(
-                  height: 20.0,
-                ),
-                InputAuth(
                   title: 'Email Address',
                   hint: 'Write your email',
                   editingController: signUpController.editEmail,
@@ -104,50 +98,15 @@ class _SignUpPageState extends State<SignUpPage> {
                 const SizedBox(
                   height: 30.0,
                 ),
-                Row(
-                  children: [
-                    Container(
-                      height: 20,
-                      width: 20,
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          color: Theme.of(context).primaryColor,
-                        ),
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(8.0),
-                        ),
-                      ),
-                      padding: const EdgeInsets.all(2),
-                      child: Material(
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(6.0),
-                        ),
-                        color: Theme.of(context).primaryColor,
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 8.0,
-                    ),
-                    Text(
-                      'I agree with terms and condirion',
-                      style: TextStyle(
-                        color: Colors.black,
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(
-                  height: 30.0,
-                ),
                 Obx(() {
                   bool loading = signUpController.loading;
                   if (loading) return DView.loadingCircle();
                   return FilledButton(
                     onPressed: () {
-                      signUpController.execute(context);
+                      //     signUpController.execute(context);
                     },
                     child: Text(
-                      'Sign Up',
+                      'Sign In & Explore',
                     ),
                   );
                 }),
@@ -156,10 +115,13 @@ class _SignUpPageState extends State<SignUpPage> {
                 ),
                 SecondaryButton(
                   onPressed: () {
-                    Navigator.pop(context);
+                    Navigator.pushNamed(
+                      context,
+                      AppRoute.signUp.name,
+                    );
                   },
                   child: Text(
-                    'Sign In to My Account',
+                    'Create New Account',
                   ),
                 ),
               ],

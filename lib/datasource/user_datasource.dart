@@ -54,4 +54,48 @@ class UserDatasource {
       return Left(message);
     }
   }
+
+  static Future<Either<String, Map>> signIn(
+    String email,
+    String password,
+  ) async {
+    try {
+      final resultAuth = await Appwrite.account.createEmailPasswordSession(
+        email: email,
+        password: password,
+      );
+
+      final response = await Appwrite.databases.getDocument(
+        databaseId: Appwrite.databaseId,
+        collectionId: Appwrite.collectionUsers,
+        documentId: resultAuth.userId,
+      );
+
+      Map data = response.data;
+      AppLog.success(
+        body: data.toString(),
+        title: 'User - SignIn',
+      );
+
+      return Right(data);
+    } catch (e) {
+      AppLog.error(
+        body: e.toString(),
+        title: 'User - SignIn',
+      );
+
+      String defaultMessage = 'Terjadi suatu masalah';
+      String message = defaultMessage;
+
+      if (e is AppwriteException) {
+        if (e.code == 401) {
+          message = 'Account tidak dikenal!';
+        } else {
+          message = e.message ?? defaultMessage;
+        }
+      }
+
+      return Left(message);
+    }
+  }
 }

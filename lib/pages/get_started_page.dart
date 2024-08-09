@@ -1,6 +1,5 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
-import 'package:d_view/d_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_coworkers_app/config/enums.dart';
 
@@ -69,7 +68,10 @@ class GetStartedPage extends StatelessWidget {
               padding: EdgeInsets.symmetric(horizontal: 20),
               child: FilledButton(
                 onPressed: () {
-                  Navigator.pushNamed(context, AppRoute.signUp.name);
+                  Navigator.pushNamed(
+                    context,
+                    AppRoute.signIn.name,
+                  );
                 },
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
