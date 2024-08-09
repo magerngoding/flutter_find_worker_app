@@ -103,7 +103,7 @@ class _SignInPageState extends State<SignInPage> {
                   if (loading) return DView.loadingCircle();
                   return FilledButton(
                     onPressed: () {
-                      //     signUpController.execute(context);
+                      signUpController.execute(context);
                     },
                     child: Text(
                       'Sign In & Explore',

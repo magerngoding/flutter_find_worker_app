@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_coworkers_app/config/app_info.dart';
+import 'package:flutter_coworkers_app/config/enums.dart';
+import 'package:flutter_coworkers_app/config/session.dart';
 import 'package:get/get.dart';
 
 import '../datasource/user_datasource.dart';
@@ -45,18 +47,24 @@ class SignInController extends GetxController {
     UserDatasource.signIn(
       editEmail.text,
       editPassword.text,
-    ).then((value) {
-      loading = false;
-      value.fold(
-        (message) {
-          AppInfo.failed(context, message);
-        },
-        (data) {
-          AppInfo.toastSuccess('Berhasil');
-          // Save to seesion
-          // Navigasi
-        },
-      );
-    });
+    ).then(
+      (value) {
+        loading = false;
+        value.fold(
+          (message) {
+            AppInfo.failed(context, message);
+          },
+          (data) {
+            // Save to session
+            AppSession.setUser(data);
+
+            AppInfo.toastSuccess('Berhasil');
+
+            // Navigasi
+            Navigator.pushReplacementNamed(context, AppRoute.dashboard.name);
+          },
+        );
+      },
+    );
   }
 }

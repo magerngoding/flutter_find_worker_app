@@ -1,9 +1,12 @@
 // ignore_for_file: prefer_const_constructors, deprecated_member_use
 
+import 'package:d_view/d_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_coworkers_app/config/app_color.dart';
 import 'package:flutter_coworkers_app/config/appwrite.dart';
 import 'package:flutter_coworkers_app/config/enums.dart';
+import 'package:flutter_coworkers_app/config/session.dart';
+import 'package:flutter_coworkers_app/pages/dashboard.dart';
 import 'package:flutter_coworkers_app/pages/get_started_page.dart';
 import 'package:flutter_coworkers_app/pages/sign_in_page.dart';
 import 'package:flutter_coworkers_app/pages/sign_up_page.dart';
@@ -48,11 +51,25 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ),
-      initialRoute: AppRoute.getStarted.name,
+      initialRoute: AppRoute.dashboard.name,
       routes: {
         AppRoute.getStarted.name: (context) => GetStartedPage(),
         AppRoute.signUp.name: (context) => SignUpPage(),
         AppRoute.signIn.name: (context) => SignInPage(),
+        AppRoute.dashboard.name: (context) {
+          return FutureBuilder(
+            future: AppSession.getUser(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return DView.loadingCircle();
+              }
+              if (snapshot.data == null) {
+                return GetStartedPage();
+              }
+              return Dashboard();
+            },
+          );
+        },
       },
     );
   }

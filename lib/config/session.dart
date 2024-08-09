@@ -15,12 +15,12 @@ class AppSession {
     return success;
   }
 
-  static Future<Map?> getUser(Map user) async {
+  static Future<Map?> getUser() async {
     Map? mapUser = await DSession.getUser();
 
     if (mapUser != null) {
       final userController = Get.put(UserController());
-      userController.data = UserModel.fromJson(Map.from(user));
+      userController.data = UserModel.fromJson(Map.from(mapUser));
     }
 
     return mapUser;

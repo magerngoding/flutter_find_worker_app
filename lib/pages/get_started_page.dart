@@ -68,7 +68,8 @@ class GetStartedPage extends StatelessWidget {
               padding: EdgeInsets.symmetric(horizontal: 20),
               child: FilledButton(
                 onPressed: () {
-                  Navigator.pushNamed(
+                  Navigator.pushReplacementNamed(
+                    // ganti dari pushNamed agar diback dari home page/signIn langsung tutup aplikasi karena belum implementasi session
                     context,
                     AppRoute.signIn.name,
                   );
