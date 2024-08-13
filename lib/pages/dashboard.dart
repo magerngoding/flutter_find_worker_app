@@ -1,6 +1,5 @@
 // ignore_for_file: prefer_const_constructors
 
-import 'package:d_view/d_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_coworkers_app/controllers/dashboard_controller.dart';
 import 'package:get/get.dart';
