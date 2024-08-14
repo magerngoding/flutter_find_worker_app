@@ -1,8 +1,10 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_coworkers_app/controllers/browse_controller.dart';
+import 'package:flutter_coworkers_app/widgets/section_title.dart';
 import 'package:get/get.dart';
 
 import '../../controllers/user_controller.dart';
@@ -36,40 +38,274 @@ class _BrowseFragmentState extends State<BrowseFragment> {
               Image.asset(
                 'assets/bg_discover_page.png',
               ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  header(),
-                  const SizedBox(
-                    height: 30.0,
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: 20,
+              Transform.translate(
+                // geser paksa
+                offset: Offset(0, 25),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    header(),
+                    const SizedBox(
+                      height: 30.0,
                     ),
-                    child: Text(
-                      "Anda butuh pekerja\napa untuk hari ini?",
-                      style: TextStyle(
-                        fontSize: 24.0,
-                        fontWeight: FontWeight.w700,
-                        color: Colors.black,
+                    Padding(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 20,
+                      ),
+                      child: Text(
+                        "Anda butuh pekerja\napa untuk hari ini?",
+                        style: TextStyle(
+                          fontSize: 24.0,
+                          fontWeight: FontWeight.w700,
+                          color: Colors.black,
+                        ),
                       ),
                     ),
-                  ),
-                  const SizedBox(
-                    height: 20.0,
-                  ),
-                  categories(),
-                  const SizedBox(
-                    height: 40.0,
-                  ),
-                ],
-              )
+                    const SizedBox(height: 20.0),
+                    categories(),
+                    const SizedBox(height: 40.0),
+                    searchBox(),
+                  ],
+                ),
+              ),
             ],
+          ),
+        ),
+        const SizedBox(height: 50.0),
+        latestStats(),
+        const SizedBox(height: 30.0),
+        highRatedWorkers(),
+      ],
+    );
+  }
+
+  Widget highRatedWorkers() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SectionTitle(
+          text: 'High Rated Workers',
+          autoPadding: true,
+        ),
+        const SizedBox(
+          height: 12.0,
+        ),
+        SizedBox(
+          height: 120,
+          child: ListView.builder(
+            scrollDirection: Axis.horizontal,
+            physics: BouncingScrollPhysics(),
+            itemCount: browseController.highRatedWorkers.length,
+            itemBuilder: (context, index) {
+              Map worker = browseController.highRatedWorkers[index];
+
+              return Container(
+                margin: EdgeInsets.only(
+                  left: index == 0 ? 20 : 8,
+                  right: index == browseController.highRatedWorkers.length - 1
+                      ? 20
+                      : 8,
+                ),
+                height: 100,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(16.0),
+                  ),
+                  border: Border.all(
+                    color: Color(0XFFEAEAEA),
+                  ),
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Image.asset(
+                      worker['image'],
+                      width: 46,
+                      height: 46,
+                    ),
+                    const SizedBox(
+                      height: 6.0,
+                    ),
+                    Text(
+                      worker['name'],
+                      style: TextStyle(
+                        fontSize: 16.0,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 4.0,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Image.asset(
+                          "assets/ic_starsmall_.png",
+                          width: 16.0,
+                          height: 16.0,
+                        ),
+                        const SizedBox(
+                          width: 2.0,
+                        ),
+                        Text(
+                          '${worker['rate']}',
+                          style: TextStyle(
+                            color: Colors.black,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              );
+            },
           ),
         )
       ],
+    );
+  }
+
+  Widget latestStats() {
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 20),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SectionTitle(
+            text: 'Latest Stats',
+          ),
+          const SizedBox(
+            height: 12.0,
+          ),
+          Row(
+            children: [
+              Expanded(
+                child: Row(
+                  children: [
+                    Image.asset(
+                      "assets/ic_hired_stats.png",
+                      width: 46.0,
+                      height: 46.0,
+                    ),
+                    const SizedBox(
+                      width: 12.0,
+                    ),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            '12,882',
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.black,
+                            ),
+                          ),
+                          Text(
+                            'Hired',
+                            style: TextStyle(
+                              color: Colors.black,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Expanded(
+                child: Row(
+                  children: [
+                    Image.asset(
+                      "assets/ic_money_spend.png",
+                      width: 46.0,
+                      height: 46.0,
+                    ),
+                    const SizedBox(
+                      width: 12.0,
+                    ),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            '\$89, 390',
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.black,
+                            ),
+                          ),
+                          Text(
+                            'Expanse',
+                            style: TextStyle(
+                              color: Colors.black,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget searchBox() {
+    return Container(
+      height: 50,
+      margin: const EdgeInsets.symmetric(horizontal: 20),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(30),
+        boxShadow: [
+          BoxShadow(
+            color: const Color(0xffe5e7ec).withOpacity(0.5),
+            blurRadius: 30,
+            offset: const Offset(0, 6),
+          ),
+        ],
+      ),
+      alignment: Alignment.bottomLeft,
+      padding: const EdgeInsets.only(left: 20, right: 8),
+      child: Row(
+        children: [
+          const Expanded(
+            child: TextField(
+              decoration: InputDecoration(
+                hintText: 'Search your dream worker',
+                hintStyle: TextStyle(
+                  color: Color(0xffA7A8B3),
+                  fontSize: 16,
+                  fontWeight: FontWeight.w400,
+                ),
+                border: InputBorder.none,
+                contentPadding: EdgeInsets.all(0),
+                isDense: true,
+              ),
+              style: TextStyle(
+                color: Colors.black,
+                fontSize: 16,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ),
+          IconButton(
+            onPressed: () {},
+            icon: const ImageIcon(
+              AssetImage(
+                'assets/ic_search.png',
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 
