@@ -101,7 +101,7 @@ class BrowseController extends GetxController {
       'image': 'assets/news2.png',
       'name': 'Pemilihan Alat Cleaner',
       'category': 'Health',
-      'is_popular': false,
+      'is_popular': true,
     },
   ];
 }

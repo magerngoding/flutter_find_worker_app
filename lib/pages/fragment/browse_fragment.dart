@@ -76,6 +76,168 @@ class _BrowseFragmentState extends State<BrowseFragment> {
         latestStats(),
         const SizedBox(height: 30.0),
         highRatedWorkers(),
+        const SizedBox(height: 30.0),
+        newComers(),
+        const SizedBox(height: 30.0),
+        curatedTips(),
+        const SizedBox(height: 30.0),
+      ],
+    );
+  }
+
+  Widget curatedTips() {
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 20),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SectionTitle(
+            text: 'Curated Tips',
+          ),
+          Column(
+            children: browseController.curatedTips.map((item) {
+              return Padding(
+                padding: EdgeInsets.only(top: 16),
+                child: Row(
+                  children: [
+                    Stack(
+                      children: [
+                        Image.asset(
+                          item['image'],
+                          width: 70.0,
+                          height: 70.0,
+                        ),
+                        if (item['is_popular'])
+                          Positioned(
+                            left: 0, // mepet kiri
+                            right: 0, // mepet kanan
+                            bottom: 0,
+                            child: Container(
+                              height: 24,
+                              decoration: BoxDecoration(
+                                color: Color(0XFFBFA8FF),
+                                borderRadius: BorderRadius.only(
+                                  bottomLeft: Radius.circular(16),
+                                  bottomRight: Radius.circular(16),
+                                ),
+                              ),
+                              alignment: Alignment.center,
+                              child: Text(
+                                'Popular',
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w500,
+                                  height: 1,
+                                ),
+                              ),
+                            ),
+                          )
+                      ],
+                    ),
+                    const SizedBox(width: 12.0),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          item['name'],
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.w600,
+                            fontSize: 16.0,
+                          ),
+                        ),
+                        Text(
+                          item['category'],
+                          style: TextStyle(
+                            color: Colors.grey,
+                            fontSize: 14.0,
+                          ),
+                        ),
+                      ],
+                    )
+                  ],
+                ),
+              );
+            }).toList(),
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget newComers() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SectionTitle(
+          text: 'Newcomers',
+          autoPadding: true,
+        ),
+        const SizedBox(
+          height: 12.0,
+        ),
+        GridView.builder(
+          padding: EdgeInsets.symmetric(horizontal: 20),
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2, // jumlah gambar genap
+            mainAxisExtent: 74, // tinggi gambar
+            crossAxisSpacing: 16, // spasi antar colom
+            mainAxisSpacing: 16, // spasi ke bawah
+          ),
+          shrinkWrap: true,
+          physics: NeverScrollableScrollPhysics(),
+          itemCount: browseController.newcomers.length,
+          itemBuilder: (context, index) {
+            Map item = browseController.newcomers[index];
+
+            return Container(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              height: 100,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.all(
+                  Radius.circular(16.0),
+                ),
+                border: Border.all(
+                  color: Color(0XFFEAEAEA),
+                ),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Image.asset(
+                    item['image'],
+                    width: 46,
+                    height: 46,
+                  ),
+                  const SizedBox(width: 12.0),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          item['name'],
+                          style: TextStyle(
+                            fontWeight: FontWeight.w600,
+                            fontSize: 16.0,
+                            color: Colors.black,
+                          ),
+                        ),
+                        Text(
+                          item['job'],
+                          style: TextStyle(
+                            color: Colors.grey,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            );
+          },
+        )
       ],
     );
   }
@@ -101,6 +263,7 @@ class _BrowseFragmentState extends State<BrowseFragment> {
               Map worker = browseController.highRatedWorkers[index];
 
               return Container(
+                width: 100,
                 margin: EdgeInsets.only(
                   left: index == 0 ? 20 : 8,
                   right: index == browseController.highRatedWorkers.length - 1
@@ -132,6 +295,7 @@ class _BrowseFragmentState extends State<BrowseFragment> {
                       style: TextStyle(
                         fontSize: 16.0,
                         fontWeight: FontWeight.bold,
+                        color: Colors.black,
                       ),
                     ),
                     const SizedBox(
@@ -141,7 +305,7 @@ class _BrowseFragmentState extends State<BrowseFragment> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Image.asset(
-                          "assets/ic_starsmall_.png",
+                          "assets/ic_star_small.png",
                           width: 16.0,
                           height: 16.0,
                         ),
