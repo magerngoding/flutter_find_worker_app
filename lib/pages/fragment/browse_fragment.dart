@@ -3,6 +3,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_coworkers_app/config/enums.dart';
 import 'package:flutter_coworkers_app/controllers/browse_controller.dart';
 import 'package:flutter_coworkers_app/widgets/section_title.dart';
 import 'package:get/get.dart';
@@ -484,7 +485,13 @@ class _BrowseFragmentState extends State<BrowseFragment> {
           Map category = browseController.categories[index];
 
           return GestureDetector(
-            onTap: () {},
+            onTap: () {
+              Navigator.pushNamed(
+                context,
+                AppRoute.listWorker.name,
+                arguments: category['label'],
+              );
+            },
             child: Container(
               margin: EdgeInsets.only(
                 // index di kiri ujung jarak 20

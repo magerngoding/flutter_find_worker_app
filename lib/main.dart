@@ -8,6 +8,7 @@ import 'package:flutter_coworkers_app/config/enums.dart';
 import 'package:flutter_coworkers_app/config/session.dart';
 import 'package:flutter_coworkers_app/pages/dashboard.dart';
 import 'package:flutter_coworkers_app/pages/get_started_page.dart';
+import 'package:flutter_coworkers_app/pages/list_worker_page.dart';
 import 'package:flutter_coworkers_app/pages/sign_in_page.dart';
 import 'package:flutter_coworkers_app/pages/sign_up_page.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -70,6 +71,12 @@ class MyApp extends StatelessWidget {
               return Dashboard();
             },
           );
+        },
+        AppRoute.listWorker.name: (context) {
+          String category =
+              ModalRoute.of(context)!.settings.arguments as String;
+
+          return ListWorkerPage(category: category);
         },
       },
     );
