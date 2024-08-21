@@ -60,7 +60,7 @@ class UserDatasource {
     String password,
   ) async {
     try {
-      final resultAuth = await Appwrite.account.createEmailPasswordSession(
+      final resultAuth = await Appwrite.account.createEmailSession(
         email: email,
         password: password,
       );

@@ -3,7 +3,7 @@ import 'package:appwrite/appwrite.dart';
 class Appwrite {
   // This object
   static const projectId = '66acc6e000179ecc81e2';
-  static const endPoint = 'https://cloud.appwrite.io/v1';
+  static const endpoint = 'https://cloud.appwrite.io/v1';
 
   static const databaseId = '66b07069003e03dafcf6';
   static const collectionUsers = '66b070a40005f3efb923';
@@ -17,14 +17,14 @@ class Appwrite {
 
   static init() {
     client
-        .setEndpoint(endPoint)
+        .setEndpoint(endpoint)
         .setProject(projectId)
         .setSelfSigned(status: true);
     account = Account(client);
     databases = Databases(client);
   }
 
-  String imageUrl(String fileId) {
-    return '#endpoint/storage/buckets/$bucketWorker/files/$fileId/view?project=$projectId';
+  static String imageURL(String fileId) {
+    return '$endpoint/storage/buckets/$bucketWorker/files/$fileId/view?project=$projectId';
   }
 }

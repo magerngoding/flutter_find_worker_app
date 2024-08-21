@@ -1,6 +1,10 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first, prefer_const_literals_to_create_immutables, prefer_const_constructors
+import 'package:d_view/d_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_coworkers_app/config/app_color.dart';
+import 'package:flutter_coworkers_app/config/app_format.dart';
+import 'package:flutter_coworkers_app/config/appwrite.dart';
+import 'package:flutter_coworkers_app/models/worker_model.dart';
 import 'package:flutter_coworkers_app/widgets/header_worker.dart';
 import 'package:get/get.dart';
 
@@ -73,8 +77,117 @@ class _ListWorkerPageState extends State<ListWorkerPage> {
           ),
           const SizedBox(height: 50.0),
           topRatedCategory(),
+          const SizedBox(height: 30.0),
+          availableWorker(),
         ],
       ),
+    );
+  }
+
+  Widget availableWorker() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const SectionTitle(text: 'Available Workers', autoPadding: true),
+        DView.spaceHeight(),
+        Obx(() {
+          String statusFetch = listWorkerController.statusFetch;
+          if (statusFetch == '') return DView.nothing();
+          if (statusFetch == 'Loading') return DView.loadingCircle();
+          //     if (statusFetch != 'Success') return DView.error(statusFetch);
+
+          List<WorkerModel> list = listWorkerController.availableWorkers;
+
+          return ListView.builder(
+            itemCount: list.length,
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            itemBuilder: (context, index) {
+              WorkerModel item = list[index];
+              return GestureDetector(
+                onTap: () {},
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(16),
+                    border: Border.all(color: const Color(0xffeaeaea)),
+                  ),
+                  padding: const EdgeInsets.all(12),
+                  margin: const EdgeInsets.only(bottom: 16),
+                  child: Row(
+                    children: [
+                      Image.network(
+                        Appwrite.imageURL(item.image),
+                        width: 60,
+                        height: 60,
+                      ),
+                      DView.spaceWidth(12),
+                      Expanded(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              item.name,
+                              style: const TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w600,
+                                color: Colors.black,
+                              ),
+                            ),
+                            DView.spaceHeight(2),
+                            Text(
+                              '${item.location} • ${item.experience}yrs',
+                              style: const TextStyle(
+                                color: Colors.grey,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          Row(
+                            children: [
+                              Text(
+                                AppFormat.price(item.hourRate),
+                                style: const TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.black,
+                                ),
+                              ),
+                              const Text('/hr'),
+                            ],
+                          ),
+                          DView.spaceHeight(2),
+                          Row(
+                            children: [
+                              Image.asset(
+                                'assets/ic_star_small.png',
+                                width: 16,
+                                height: 16,
+                              ),
+                              DView.spaceWidth(2),
+                              Text(
+                                item.rating.toString(),
+                                style: const TextStyle(
+                                  color: Colors.black,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            },
+          );
+        }),
+      ],
     );
   }
 
