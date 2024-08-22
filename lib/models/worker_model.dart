@@ -3,6 +3,7 @@
 //     final workerModel = workerModelFromJson(jsonString);
 
 import 'dart:convert';
+// Data si worker mode
 
 WorkerModel workerModelFromJson(String str) =>
     WorkerModel.fromJson(json.decode(str));

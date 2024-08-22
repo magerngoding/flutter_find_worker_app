@@ -1,10 +1,10 @@
-// ignore_for_file: prefer_const_constructors
-
 import 'package:appwrite/appwrite.dart';
+
 import 'package:dartz/dartz.dart';
-import 'package:flutter_coworkers_app/config/app_log.dart';
-import 'package:flutter_coworkers_app/config/appwrite.dart';
-import 'package:flutter_coworkers_app/models/worker_model.dart';
+
+import '../config/app_log.dart';
+import '../config/appwrite.dart';
+import '../models/worker_model.dart';
 
 class WorkerDatasource {
   static Future<Either<String, List<WorkerModel>>> fetchAvailable(
@@ -25,7 +25,8 @@ class WorkerDatasource {
           body: 'Not Found',
           title: 'Worker - fetchAvailable',
         );
-        return Left('Tidak ditemukan');
+
+        return const Left('Tidak ditemukan');
       }
 
       AppLog.success(
@@ -44,11 +45,11 @@ class WorkerDatasource {
         title: 'Worker - fetchAvailable',
       );
 
-      String defaultMessage = 'Terjadi suatu masalah!';
-      String message = defaultMessage;
+      String defaulMessage = 'Terjadi suatu masalah';
+      String message = defaulMessage;
 
       if (e is AppwriteException) {
-        message = e.message ?? defaultMessage;
+        message = e.message ?? defaulMessage;
       }
 
       return Left(message);

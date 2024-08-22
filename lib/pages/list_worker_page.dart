@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_coworkers_app/config/app_color.dart';
 import 'package:flutter_coworkers_app/config/app_format.dart';
 import 'package:flutter_coworkers_app/config/appwrite.dart';
+import 'package:flutter_coworkers_app/config/enums.dart';
 import 'package:flutter_coworkers_app/models/worker_model.dart';
 import 'package:flutter_coworkers_app/widgets/header_worker.dart';
 import 'package:get/get.dart';
@@ -26,6 +27,12 @@ class ListWorkerPage extends StatefulWidget {
 
 class _ListWorkerPageState extends State<ListWorkerPage> {
   final listWorkerController = Get.put(ListWorkerController());
+
+  @override
+  void initState() {
+    listWorkerController.fetchAvailable(widget.category);
+    super.initState();
+  }
 
   @override
   void dispose() {
@@ -94,7 +101,7 @@ class _ListWorkerPageState extends State<ListWorkerPage> {
           String statusFetch = listWorkerController.statusFetch;
           if (statusFetch == '') return DView.nothing();
           if (statusFetch == 'Loading') return DView.loadingCircle();
-          //     if (statusFetch != 'Success') return DView.error(statusFetch);
+          if (statusFetch != 'Success') return DView.error();
 
           List<WorkerModel> list = listWorkerController.availableWorkers;
 
@@ -106,7 +113,13 @@ class _ListWorkerPageState extends State<ListWorkerPage> {
             itemBuilder: (context, index) {
               WorkerModel item = list[index];
               return GestureDetector(
-                onTap: () {},
+                onTap: () {
+                  Navigator.pushNamed(
+                    context,
+                    AppRoute.workerProfile.name,
+                    arguments: item,
+                  );
+                },
                 child: Container(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(16),
