@@ -9,7 +9,7 @@ class WorkerProfileController extends GetxController {
   // Recruiter
   final _recruiterId = ''.obs;
   String get recruiterId => _recruiterId.value;
-  set recruiterId(String n) => _recruiterId.value;
+  set recruiterId(String n) => _recruiterId.value = n;
 
   checkHiredBy(String workerId) {
     BookingDatasource.checkHireBy(workerId).then((value) {
