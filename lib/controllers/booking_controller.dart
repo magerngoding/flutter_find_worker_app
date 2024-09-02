@@ -16,6 +16,12 @@ class BookingController extends GetxController {
   int get duration => _duration.value;
   setDuration(int n, double hourRate) {
     _duration.value = n;
+    BookingModel newBookingModel = bookingDetail
+      ..hiringDuration = n
+      ..subtotal = n * hourRate;
+    _bookingDetail.value = newBookingModel;
+    update();
+    // Diupdate
   }
 
   final _bookingDetail = BookingModel(
@@ -34,24 +40,25 @@ class BookingController extends GetxController {
     $createdAt: '',
     $updatedAt: '',
   ).obs;
-  BookingModel get bookingModel => _bookingDetail.value;
+  BookingModel get bookingDetail => _bookingDetail.value;
 
   initBookingDetail(String userId, WorkerModel worker) {
     _bookingDetail.value = BookingModel(
-        userId: userId,
-        workerId: worker.$id,
-        date: DateTime.now(),
-        hiringDuration: duration,
-        subtotal: duration * worker.hourRate,
-        insurance: 599,
-        tax: 886,
-        platformFee: 666,
-        grandTotal: 222,
-        payWith: 'Wallet',
-        status: 'In Progress',
-        $id: '',
-        $createdAt: '',
-        $updatedAt: '',
-        worker: worker);
+      userId: userId,
+      workerId: worker.$id,
+      date: DateTime.now(),
+      hiringDuration: duration,
+      subtotal: duration * worker.hourRate,
+      insurance: 599,
+      tax: 886,
+      platformFee: 666,
+      grandTotal: 222,
+      payWith: 'Wallet',
+      status: 'In Progress',
+      $id: '',
+      $createdAt: '',
+      $updatedAt: '',
+      worker: worker,
+    );
   }
 }
