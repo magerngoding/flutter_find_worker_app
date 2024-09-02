@@ -1,4 +1,7 @@
+import 'package:d_view/d_view.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:flutter_coworkers_app/config/app_format.dart';
 import 'package:get/get.dart';
 
 import '../config/app_color.dart';
@@ -64,9 +67,155 @@ class _CheckoutPageState extends State<CheckoutPage> {
               ],
             ),
           ),
-          const SizedBox(height: 90.0),
+          Transform.translate(
+            offset: Offset(0, 55),
+            child: walletBox(),
+          ),
+          const SizedBox(height: 50.0),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Text(
+                "Total pay",
+                style: TextStyle(
+                  fontSize: 16.0,
+                  color: Colors.black,
+                ),
+              ),
+              Obx(() {
+                return Text(
+                  AppFormat.price(bookingController.bookingDetail.grandTotal),
+                  style: TextStyle(
+                    fontSize: 28.0,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.black,
+                  ),
+                );
+              }),
+            ],
+          ),
+          const SizedBox(
+            height: 30.0,
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: Row(
+              children: [
+                Container(
+                  height: 20,
+                  width: 20,
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      color: Theme.of(context).primaryColor,
+                    ),
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(8.0),
+                    ),
+                  ),
+                  padding: const EdgeInsets.all(2),
+                  child: Material(
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(6.0),
+                    ),
+                    color: Theme.of(context).primaryColor,
+                  ),
+                ),
+                const SizedBox(
+                  width: 8.0,
+                ),
+                Text(
+                  'I agree with terms and condirion',
+                  style: TextStyle(
+                    color: Colors.black,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(
+            height: 30.0,
+          ),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 20),
+            child: Obx(() {
+              if (checkoutController.loading) return DView.loadingCircle();
+              return FilledButton.icon(
+                onPressed: () {
+                  checkoutController.execute(
+                      context, bookingController.bookingDetail);
+                },
+                icon: ImageIcon(
+                  AssetImage('assets/ic_secure.png'),
+                ),
+                label: Text('Pay Now'),
+              );
+            }),
+          ),
+          const SizedBox(
+            height: 30.0,
+          ),
+          Center(
+            child: Text(
+              'Read Terms & Condition',
+              style: TextStyle(
+                fontSize: 16.0,
+                decoration: TextDecoration.underline,
+                decorationThickness: 2,
+                decorationStyle: TextDecorationStyle.solid,
+                color: Color(0XFFB2B3BC),
+              ),
+            ),
+          ),
         ],
       ),
+    );
+  }
+
+  Widget walletBox() {
+    return Stack(
+      children: [
+        Image.asset(
+          "assets/bg_card.png",
+        ),
+        Positioned(
+          left: 60,
+          top: 110,
+          child: Text(
+            AppFormat.price(78555),
+            style: TextStyle(
+              fontSize: 36.0,
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+            ),
+          ),
+        ),
+        Positioned(
+          left: 60,
+          right: 60,
+          bottom: 106,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Obx(() {
+                return Text(
+                  userController.data.name ?? '',
+                  style: TextStyle(
+                    fontSize: 16.0,
+                    color: Colors.white,
+                  ),
+                );
+              }),
+              Text(
+                "12/27",
+                style: TextStyle(
+                  fontSize: 16.0,
+                  color: Colors.white,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
     );
   }
 

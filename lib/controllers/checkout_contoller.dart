@@ -38,7 +38,9 @@ class CheckoutContoller extends GetxController {
   set loading(bool n) => _loading.value = n;
 
   execute(BuildContext context, BookingModel bookingDetail) {
+    loading = true;
     BookingDatasource.checkout(bookingDetail).then((value) {
+      loading = false;
       value.fold(
         (message) => AppInfo.failed(context, message),
         (data) {
