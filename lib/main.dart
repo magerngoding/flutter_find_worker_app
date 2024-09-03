@@ -14,6 +14,7 @@ import 'package:flutter_coworkers_app/pages/get_started_page.dart';
 import 'package:flutter_coworkers_app/pages/list_worker_page.dart';
 import 'package:flutter_coworkers_app/pages/sign_in_page.dart';
 import 'package:flutter_coworkers_app/pages/sign_up_page.dart';
+import 'package:flutter_coworkers_app/pages/success_booking_page.dart';
 import 'package:flutter_coworkers_app/pages/worker_profile_page.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -101,6 +102,7 @@ class MyApp extends StatelessWidget {
         },
         // selain routes kaya gini berati dia ngirim data
         AppRoute.checkout.name: (context) => CheckoutPage(),
+        AppRoute.successBooking.name: (context) => SuccessBookingPage(),
       },
     );
   }

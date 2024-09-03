@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_coworkers_app/config/enums.dart';
 import 'package:get/get.dart';
 
 import '../config/app_info.dart';
@@ -44,7 +45,7 @@ class CheckoutContoller extends GetxController {
       value.fold(
         (message) => AppInfo.failed(context, message),
         (data) {
-          AppInfo.success(context, 'Berhasil');
+          Navigator.pushNamed(context, AppRoute.successBooking.name);
         },
       );
     });
