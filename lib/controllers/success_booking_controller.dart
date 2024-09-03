@@ -9,9 +9,12 @@ class SuccessBookingController extends GetxController {
     Get.delete<SuccessBookingController>(force: true);
   }
 
-  toWorkerProfile(BuildContext context, String workerId) {
+  toWorkerProfile(BuildContext context, String workerId, String category) {
     final workerProfileController = Get.put(WorkerProfileController());
     workerProfileController.checkHiredBy(workerId);
+
+    final listWorkerController = Get.put(ListWorkerController());
+    listWorkerController.fetchAvailable(category);
 
     Navigator.popUntil(
       context,
