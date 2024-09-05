@@ -1,7 +1,11 @@
+// ignore_for_file: unused_local_variable
+
 import 'package:appwrite/appwrite.dart';
+import 'package:appwrite/models.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter_coworkers_app/config/app_log.dart';
 import 'package:flutter_coworkers_app/config/appwrite.dart';
+import 'package:flutter_coworkers_app/models/worker_model.dart';
 
 import '../models/booking_model.dart';
 
@@ -82,6 +86,66 @@ class BookingDatasource {
       AppLog.error(
         body: e.toString(),
         title: 'Booking - checkHireBy',
+      );
+
+      String defaulMessage = 'Terjadi suatu masalah';
+      String message = defaulMessage;
+
+      if (e is AppwriteException) {
+        message = e.message ?? defaulMessage;
+      }
+
+      return Left(message);
+    }
+  }
+
+  static Future<Either<String, List<BookingModel>>> fetchOrder(
+    String userId, // USER HAFIZH / CAHYA
+    String status,
+  ) async {
+    try {
+      final response = await Appwrite.databases.listDocuments(
+        databaseId: Appwrite.databaseId,
+        collectionId: Appwrite.collectionBooking,
+        queries: [
+          Query.equal('user_id', userId),
+          Query.equal('status', status),
+          Query.orderDesc('\$updatedAt'),
+        ],
+      );
+
+      if (response.total < 1) {
+        // available
+        AppLog.error(
+          body: 'Not Found',
+          title: 'Booking - fetchOrder - $status',
+        );
+        return const Left('Tidak ditemukan');
+      }
+
+      AppLog.success(
+        body: response.toMap().toString(),
+        title: 'Booking - fetchOrder - $status',
+      );
+
+      List<BookingModel> orders = [];
+
+      for (Document doc in response.documents) {
+        final responseWorker = await Appwrite.databases.getDocument(
+          databaseId: Appwrite.databaseId,
+          collectionId: Appwrite.collectionWorkers,
+          documentId: doc.data['worker_id'],
+        );
+        WorkerModel worker = WorkerModel.fromJson(responseWorker.data);
+        BookingModel booking = BookingModel.fromJson(doc.data, worker: worker);
+        orders.add(booking);
+      }
+
+      return Right(orders);
+    } catch (e) {
+      AppLog.error(
+        body: e.toString(),
+        title: 'Booking - fetchOrder - $status',
       );
 
       String defaulMessage = 'Terjadi suatu masalah';

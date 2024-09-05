@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_coworkers_app/config/enums.dart';
-import 'package:flutter_coworkers_app/controllers/browse_controller.dart';
+import 'package:flutter_coworkers_app/controllers/fragments/browse_controller.dart';
 import 'package:flutter_coworkers_app/widgets/section_title.dart';
 import 'package:get/get.dart';
 
