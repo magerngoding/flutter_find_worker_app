@@ -1,3 +1,6 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_coworkers_app/config/app_info.dart';
+import 'package:flutter_coworkers_app/config/app_log.dart';
 import 'package:flutter_coworkers_app/datasource/booking_datasource.dart';
 import 'package:flutter_coworkers_app/models/booking_model.dart';
 import 'package:get/get.dart';
@@ -27,7 +30,7 @@ class OrderController extends GetxController {
 
   init(String userId) {
     fetchInProgress(userId);
-    fetchInCompleted(userId);
+    fetchCompleted(userId);
   }
 
   fetchInProgress(String userId) {
@@ -45,7 +48,7 @@ class OrderController extends GetxController {
     );
   }
 
-  fetchInCompleted(String userId) {
+  fetchCompleted(String userId) {
     statusCompleted = 'Loading';
     BookingDatasource.fetchOrder(userId, 'Completed').then(
       (value) {
@@ -60,5 +63,59 @@ class OrderController extends GetxController {
     );
   }
 
-  setCompletrd() {}
+  setCompleted(
+    BuildContext context,
+    String bookingId,
+    String workerId,
+    String userId,
+  ) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text(
+            'Set Completed',
+            style: TextStyle(
+              color: Colors.black,
+            ),
+          ),
+          content: Text(
+            'You sure want to set this worker finished the job?',
+            style: TextStyle(
+              color: Colors.black,
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: Text('No'),
+            ),
+            TextButton(
+              onPressed: () => Navigator.pop(
+                context,
+                true,
+              ),
+              child: Text('Yes'),
+            ),
+          ],
+        );
+      },
+    ).then(
+      (yes) {
+        if (yes ?? false) {
+          BookingDatasource.setCompleted(bookingId, workerId).then(
+            (value) {
+              value.fold(
+                (message) => AppInfo.failed(context, message),
+                (data) {
+                  AppInfo.toastSuccess('Worker Completed the Job!');
+                  init(userId);
+                },
+              );
+            },
+          );
+        }
+      },
+    );
+  }
 }

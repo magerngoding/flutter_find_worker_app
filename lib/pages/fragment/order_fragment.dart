@@ -1,6 +1,5 @@
 import 'package:d_view/d_view.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_coworkers_app/config/appwrite.dart';
 import 'package:flutter_coworkers_app/controllers/fragments/order_controller.dart';
 import 'package:flutter_coworkers_app/controllers/user_controller.dart';
@@ -140,6 +139,7 @@ class _OrderFragmentState extends State<OrderFragment> {
                           style: TextStyle(
                             fontSize: 16.0,
                             fontWeight: FontWeight.w600,
+                            color: Colors.black,
                           ),
                         ),
                         const SizedBox(
@@ -193,7 +193,14 @@ class _OrderFragmentState extends State<OrderFragment> {
             WorkerModel worker = booking.worker!;
 
             return GestureDetector(
-              onTap: () {},
+              onTap: () {
+                orderController.setCompleted(
+                  context,
+                  booking.$id,
+                  booking.workerId,
+                  userController.data.$id!,
+                );
+              },
               child: Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.all(

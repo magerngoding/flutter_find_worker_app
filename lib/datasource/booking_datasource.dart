@@ -158,4 +158,46 @@ class BookingDatasource {
       return Left(message);
     }
   }
+
+  static Future<Either<String, BookingModel>> setCompleted(
+    String bookingId,
+    String workerId,
+  ) async {
+    try {
+      final response = await Appwrite.databases.updateDocument(
+        databaseId: Appwrite.databaseId,
+        collectionId: Appwrite.collectionBooking,
+        documentId: bookingId,
+        data: {'status': 'Completed'},
+      );
+
+      await Appwrite.databases.updateDocument(
+        databaseId: Appwrite.databaseId,
+        collectionId: Appwrite.collectionWorkers,
+        documentId: workerId,
+        data: {'status': 'Available'},
+      );
+
+      AppLog.success(
+        body: response.toMap().toString(),
+        title: 'Booking - setCompleted',
+      );
+
+      return Right(BookingModel.fromJson(response.data));
+    } catch (e) {
+      AppLog.error(
+        body: e.toString(),
+        title: 'Booking - setCompleted',
+      );
+
+      String defaulMessage = 'Terjadi suatu masalah';
+      String message = defaulMessage;
+
+      if (e is AppwriteException) {
+        message = e.message ?? defaulMessage;
+      }
+
+      return Left(message);
+    }
+  }
 }
