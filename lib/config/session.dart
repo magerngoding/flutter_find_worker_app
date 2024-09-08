@@ -26,7 +26,7 @@ class AppSession {
     return mapUser;
   }
 
-  static Future<bool> removeUser(Map user) async {
+  static Future<bool> removeUser() async {
     bool success = await DSession.removeUser();
 
     if (success) {

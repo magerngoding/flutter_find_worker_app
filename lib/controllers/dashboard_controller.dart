@@ -2,6 +2,7 @@ import 'package:d_view/d_view.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_coworkers_app/pages/fragment/browse_fragment.dart';
 import 'package:flutter_coworkers_app/pages/fragment/order_fragment.dart';
+import 'package:flutter_coworkers_app/pages/fragment/settings_fragment.dart';
 import 'package:get/get.dart';
 
 class DashboardController extends GetxController {
@@ -39,7 +40,7 @@ class DashboardController extends GetxController {
       'icon_off': 'assets/ic_settings_grey.png',
       'icon_on': 'assets/ic_settings_purple.png',
       'label': 'Settings',
-      'fragment': OrderFragment(),
+      'fragment': SettingsFragment(),
     },
   ];
 }

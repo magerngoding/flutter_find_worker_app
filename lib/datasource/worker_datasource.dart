@@ -16,7 +16,7 @@ class WorkerDatasource {
         collectionId: Appwrite.collectionWorkers,
         queries: [
           Query.equal('category', category),
-          Query.equal('status', 'Available'),
+          // Query.equal('status', 'Available'),
         ],
       );
 
