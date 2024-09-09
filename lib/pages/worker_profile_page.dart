@@ -245,7 +245,12 @@ class _WorkerProfilePageState extends State<WorkerProfilePage> {
         () {
           String recruiterId = workerProfileController.recruiterId;
           if (recruiterId == '') {
-            return DView.loadingCircle();
+            return UnconstrainedBox(
+              child: Padding(
+                padding: EdgeInsets.all(20),
+                child: DView.loadingCircle(),
+              ),
+            );
           }
           if (recruiterId == 'Available') {
             return hireNow();
